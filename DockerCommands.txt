@@ -8,5 +8,5 @@ docker exec -it devjdk /bin/bash
 docker commit devjdk devpocimage
 docker stop devjdk
 docker run -d -p 8080:8080 --name devpoccontainer devpocimage sleep infinity
-
+docker exec devpoccontainer java -jar /tmp/containerpoc-0.0.1-SNAPSHOT.jar
 docker exec -it devpoccontainer /bin/bash
