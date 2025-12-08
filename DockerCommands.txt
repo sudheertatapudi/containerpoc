@@ -1,0 +1,12 @@
+docker create openjdk:17.0.2-jdk
+
+docker run -d --name devjdk openjdk:17.0.2-jdk sleep infinity
+docker cp containerpoc-0.0.1-SNAPSHOT.jar devjdk:/tmp/
+docker exec devjdk ls /tmp
+docker exec -it devjdk /bin/bash
+
+docker commit devjdk devpocimage
+docker stop devjdk
+docker run -d -p 8080:8080 --name devpoccontainer devpocimage sleep infinity
+
+docker exec -it devpoccontainer /bin/bash
