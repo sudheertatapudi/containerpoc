@@ -15,3 +15,15 @@ docker commit --change "CMD java -jar /tmp/containerpoc-0.0.1-SNAPSHOT.jar" devp
 docker container prune -f
 
 docker run -d -p 8080:8080 --name devpoccontainer devpocimage:v3
+
+docker tag devpocimage:v3 sudheertatapudi9/devpocimage:v3
+docker login
+docker push sudheertatapudi9/devpocimage:v3
+
+docker-compose up --build
+
+docker-compose down
+
+psql -U admin -d devpocdb
+
+
