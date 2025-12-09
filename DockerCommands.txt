@@ -10,3 +10,8 @@ docker stop devjdk
 docker run -d -p 8080:8080 --name devpoccontainer devpocimage sleep infinity
 docker exec devpoccontainer java -jar /tmp/containerpoc-0.0.1-SNAPSHOT.jar
 docker exec -it devpoccontainer /bin/bash
+
+docker commit --change "CMD java -jar /tmp/containerpoc-0.0.1-SNAPSHOT.jar" devpoccontainer devpocimage:v3
+docker container prune -f
+
+docker run -d -p 8080:8080 --name devpoccontainer devpocimage:v3
