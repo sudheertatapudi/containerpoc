@@ -10,6 +10,7 @@ import org.hibernate.mapping.Join;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
+import net.logstash.logback.argument.StructuredArguments;
 
 @Slf4j
 @Aspect
@@ -41,15 +42,24 @@ public class LoggingAspect {
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
         
-      
+        String className = joinPoint.getSignature().getDeclaringTypeName();
+        String methodName = joinPoint.getSignature().getName();
+
+        log.info("Executing: {}.{}()", className, methodName);
         
         Object result = joinPoint.proceed();
         
         long executionTime = System.currentTimeMillis() - startTime;
-        log.info("Printing execution time : {}.{}() - Execution time: {} ms", 
+
+      /*   log.info("Printing execution time : {}.{}() - Execution time: {} ms", 
             joinPoint.getSignature().getDeclaringTypeName(),
             joinPoint.getSignature().getName(),
-            executionTime);
+            executionTime); */
+
+         log.info("Completed: {}.{}()", 
+            StructuredArguments.kv("className", className),
+            StructuredArguments.kv("methodName", methodName),
+            StructuredArguments.kv("executionTimeMs", executionTime));    
         
         return result;
     }
